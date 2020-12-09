@@ -65,7 +65,9 @@ function renderBranches(branch){
   bLi.setAttribute('data-id', branch.id);
   bTitle.textContent = branch.data().title;
   bDes.textContent = branch.data().description;
-  due.textContent = branch.data().due_date;
+  due.textContent = branch.data().due_date.toDate();
+  due.textContent = format(new Date(due.textContent), 'do MMMM yyyy')
+  
   bRemove.innerHTML = 'X';
   bUpdate.innerHTML = 'Update';
 

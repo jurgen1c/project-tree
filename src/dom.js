@@ -47,7 +47,7 @@ class BForm{
     dinput.name = 'description';
     dinput.placeholder = 'Add a description about your tree';
 
-    input.type = 'text';
+    input.type = 'date';
     input.name = 'due_date';
 
     button.type = 'submit';
