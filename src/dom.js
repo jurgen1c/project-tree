@@ -30,5 +30,36 @@ class PForm {
     this.content = wrapper;
   }
 }
+class BForm{
+  constructor(){
+    let wrapper = document.createElement('form');
+    let tinput = document.createElement('input');
+    let dinput = document.createElement('textarea');
+    let input = document.createElement('input');
+    let button = document.createElement('button');
 
-export default PForm;
+    wrapper.id = "add-tree-form";
+
+    tinput.type = 'text';
+    tinput.name = 'title';
+    tinput.placeholder = 'Tree Title';
+
+    dinput.name = 'description';
+    dinput.placeholder = 'Add a description about your tree';
+
+    input.type = 'text';
+    input.name = 'due_date';
+
+    button.type = 'submit';
+    button.innerHTML = 'Submit';
+
+    wrapper.appendChild(tinput);
+    wrapper.appendChild(dinput);
+    wrapper.appendChild(input);
+    wrapper.appendChild(button);
+
+    this.content = wrapper;
+  }
+}
+
+export {PForm, BForm};
