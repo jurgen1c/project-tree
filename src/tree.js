@@ -1,6 +1,7 @@
 import {db} from './fire';
 import  format from 'date-fns/format';
 import { PForm, BForm } from './forms'
+import { showModal, showDes } from './modal'
 
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');
@@ -45,11 +46,14 @@ function renderBranches(branch){
   let bTitle = document.createElement('h3');
   let bStatus = document.createElement('input');
   let bPriority = document.createElement('span');
-  let bDes= document.createElement('p');
+  let bDes = document.createElement('p');
   let due = document.createElement('span');
   let bRemove = document.createElement('button');
   let bUpdate = document.createElement('button');
   let bNotes = document.createElement('p');
+  let showMore = document.createElement('span')
+
+  let desWrap = document.createElement('div');
 
   bLi.setAttribute('data-id', branch.id);
   bStatus.type = 'checkbox';
@@ -63,15 +67,25 @@ function renderBranches(branch){
   
   bRemove.innerHTML = 'X';
   bUpdate.innerHTML = 'Update';
+  showMore.innerHTML = 'show more &#65088;';
+
+  desWrap.appendChild(bDes);
+  desWrap.appendChild(bNotes);
+  desWrap.style.display = 'none';
 
   bLi.appendChild(bStatus);
   bLi.appendChild(bTitle);
+  bLi.appendChild(showMore)
   bLi.appendChild(bPriority);
   bLi.appendChild(due);
-  bLi.appendChild(bDes);
   bLi.appendChild(bRemove);
   bLi.appendChild(bUpdate);
-  bLi.appendChild(bNotes);
+  bLi.appendChild(desWrap);
+
+  showMore.addEventListener('click', (e) => {
+    showDes(desWrap);
+    e.stopPropagation();
+  })
 
   bRemove.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -95,9 +109,10 @@ function renderBranches(branch){
     }
   })
   branchList.appendChild(bLi);
+  console.log(branchList)
 }
 
-function showBranches(id){
+function showBranches(parent, id){
   branchList.innerHTML = '';
   db.collection('branches').where('tree_id', '==', id).orderBy('due_date').onSnapshot(bsnapshot => {
     let bchanges = bsnapshot.docChanges();
@@ -111,8 +126,10 @@ function showBranches(id){
         branchList.removeChild(li);
       }
     })
+  }, err => {
+    console.log(err.message)
   })
-  branchWrapper.appendChild(formBranch.content);
+  parent.appendChild(formBranch.content);
   branchWrapper.appendChild(branchList);
 }
 
@@ -153,7 +170,7 @@ function renderTree(doc){
   show.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
-    showBranches(id)
+    showBranches(li, id)
   })
 
   treeList.appendChild(li);
