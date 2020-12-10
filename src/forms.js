@@ -93,6 +93,7 @@ class UForm{
     let email = document.createElement('input');
     let pass = document.createElement('input');
     let btn = document.createElement('button');
+    let closeBtn = document.createElement('button');
 
 
     email.type = 'text';
@@ -101,7 +102,15 @@ class UForm{
     pass.name = 'password';
     btn.type = 'submit';
     btn.textContent = action;
+    closeBtn.type = 'button';
+    closeBtn.textContent = 'X';
 
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.target.parentElement.style.display = 'none';
+    })
+
+    wrapper.appendChild(closeBtn);
     form.appendChild(email);
     form.appendChild(pass);
     form.appendChild(btn);

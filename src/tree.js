@@ -1,10 +1,11 @@
-import db from './fire';
+import {db} from './fire';
 import  format from 'date-fns/format';
 import { PForm, BForm } from './forms'
 
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');
 const branchWrapper = document.createElement('div');
+const treeWrapper = document.createElement('div');
 
 const formTree = new PForm();
 const formBranch = new BForm();
@@ -96,7 +97,7 @@ function renderBranches(branch){
   branchList.appendChild(bLi);
 }
 
-function showBranches(parent, id){
+function showBranches(id){
   branchList.innerHTML = '';
   db.collection('branches').where('tree_id', '==', id).orderBy('due_date').onSnapshot(bsnapshot => {
     let bchanges = bsnapshot.docChanges();
@@ -111,8 +112,8 @@ function showBranches(parent, id){
       }
     })
   })
-  parent.appendChild(formBranch.content);
-  parent.appendChild(branchList);
+  branchWrapper.appendChild(formBranch.content);
+  branchWrapper.appendChild(branchList);
 }
 
 function renderTree(doc){
@@ -152,7 +153,7 @@ function renderTree(doc){
   show.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
-    showBranches(li, id)
+    showBranches(id)
   })
 
   treeList.appendChild(li);
@@ -164,15 +165,15 @@ const formEvents = (user) => {
     e.preventDefault();
     let id = e.target.parentElement.getAttribute('data-id');
     db.collection('branches').add({
-      title: formBranch.content.title.value,
-      priority: formBranch.content.priority.value,
-      description: formBranch.content.description.value,
+      title: formBranch.form.title.value,
+      priority: formBranch.form.priority.value,
+      description: formBranch.form.description.value,
       status: false,
-      due_date: formBranch.content.due_date.value,
-      notes: formBranch.content.notes.value,
+      due_date: formBranch.form.due_date.value,
+      notes: formBranch.form.notes.value,
       tree_id: id
     }).then(() => {
-      formBranch.content.reset();
+      formBranch.form.reset();
     }).catch(err => {
       console.log(err.message);
     })
@@ -181,16 +182,19 @@ const formEvents = (user) => {
   formTree.form.addEventListener('submit', (e) => {
     e.preventDefault();
     db.collection('trees').add({
-      title: formTree.content.title.value,
-      description: formTree.content.description.value,
-      color: formTree.content.color.value,
+      title: formTree.form.title.value,
+      description: formTree.form.description.value,
+      color: formTree.form.color.value,
       user_id: user.uid
     }).then(() => {
-      formTree.content.reset();
+      formTree.form.reset();
     }).catch(err => {
       console.log(err.message);
     })
   })
 }
 
-export  {renderTree, formEvents};
+treeWrapper.appendChild(formTree.content);
+treeWrapper.appendChild(treeList);
+
+export  {renderTree, formEvents, branchWrapper, treeWrapper};

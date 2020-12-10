@@ -1,11 +1,48 @@
+import { showModal } from './modal'
+import { loginForm, signupForm } from './forms';
+
 let navWrap = document.createElement('div');
 let logo = document.createElement('div');
 let nav = document.createElement('nav');
+let login = document.createElement('a');
+let account = document.createElement('a');
+let logout = document.createElement('a');
+let create = document.createElement('a');
+let signup = document.createElement('a');
 
-let loggedIn = ['Account', 'Logout', 'Create Tree'];
+login.className = 'item-notlogged';
+account.className = 'item-logged';
+logout.className = 'item-logged';
+create.className = 'item-logged';
+signup.className = 'item-notlogged';
+
+let loggedIn = ['Account', 'Logout', 'Create'];
 let loggedOut = ['Login', 'Sign Up']
 
-for(let i = 0; i < loggedIn.lenght; i++){
+login.textContent = 'Login';
+signup.textContent = 'Sign Up';
+logout.textContent = 'Logout';
+create.textContent = 'Create New Tree';
+account.textContent = 'Account';
+
+login.addEventListener('click', (e) => {
+  e.preventDefault();
+  showModal(loginForm.content);
+})
+
+signup.addEventListener('click', (e) => {
+  e.preventDefault();
+  showModal(signupForm.content);
+})
+
+nav.appendChild(login);
+nav.appendChild(signup);
+nav.appendChild(account);
+nav.appendChild(create);
+nav.appendChild(logout);
+
+
+/* for(let i = 0; i < loggedIn.lenght; i++){
   let navLi = document.createElement('a');
   navLi.className = 'item-logged';
   navLi.id = loggedIn[i]
@@ -14,19 +51,17 @@ for(let i = 0; i < loggedIn.lenght; i++){
   nav.appendChild(navLi);
 }
 
-let logout = document.querySelector('#Logout');
-
 for(let i = 0; i < loggedOut.length; i++){
   let navLi = document.createElement('a');
   navLi.className = 'item-notlogged';
-  navLi.id = loggedOut[i]
+  navLi.id = loggedOut[i].toLowerCase().split(/\W/).join('-');
   navLi.textContent = loggedOut[i];
   navLi.setAttribute('data-target', `modal-${loggedOut[i]}`);
   nav.appendChild(navLi);
-}
+} */
 
-let loggedItems = document.querySelectorAll('item-logged');
-let notlogged = document.querySelectorAll('item-notlogged');
+let loggedItems = [logout, account, create]
+let notlogged = [login, signup]
 
 function navControl(user){
   if(user){
@@ -42,5 +77,6 @@ function navControl(user){
 
 navWrap.appendChild(logo);
 navWrap.appendChild(nav);
+navWrap.className = 'nav'
 
 export { navWrap, navControl, logout };

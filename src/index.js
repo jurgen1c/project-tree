@@ -2,13 +2,14 @@ import './styles.scss';
 import { db, auth } from './fire'
 import { navControl, navWrap, logout } from './nav'
 import { loginForm, signupForm } from './forms';
-import { renderTree, formEvents } from './tree'
+import { renderTree, formEvents, branchWrapper, treeWrapper } from './tree'
 
 const content = document.querySelector('body');
 
 auth.onAuthStateChanged(user => {
   if (user){
-    navControl(user)
+    navControl(user);
+    formEvents(user);
     // Real Time Listener ------------
 
     db.collection('trees').where('user_id', '==', user.uid).orderBy('title').onSnapshot(snapshot => {
@@ -31,8 +32,6 @@ auth.onAuthStateChanged(user => {
     console.log('user logged out')
   }
 })
-
-let user = auth.currentUser;
 
 signupForm.form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -59,17 +58,16 @@ loginForm.form.addEventListener('submit', (e) => {
   })
 })
 
+logout.addEventListener('click', (e) => {
+  e.preventDefault();
+  auth.signOut();
+})
 
-// logout.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   auth.signout();
-// })
-
-formEvents(user);
 window.addEventListener('load', () => {
   content.appendChild(loginForm.content);
   content.appendChild(signupForm.content);
   content.appendChild(navWrap);
   // content.appendChild(formTree.content);
-  // content.appendChild(treeList);
+  content.appendChild(treeWrapper);
+  content.appendChild(branchWrapper);
 });
