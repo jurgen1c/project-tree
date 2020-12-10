@@ -1,8 +1,8 @@
 import './styles.scss';
-import {db, auth} from './fire'
-import {navControl, navWrap} from './nav'
+import { db, auth } from './fire'
+import { navControl, navWrap, logout } from './nav'
 import { loginForm, signupForm } from './forms';
-import renderTree, { formEvents } from './tree'
+import { renderTree, formEvents } from './tree'
 
 const content = document.querySelector('body');
 
@@ -36,11 +36,11 @@ let user = auth.currentUser;
 
 signupForm.form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const email = signupForm.email.value;
-  const password = signupForm.password.value;
+  const email = signupForm.form.email.value;
+  const password = signupForm.form.password.value;
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
-    signupForm.style.display = 'none';
-    signupForm.reset();
+    signupForm.content.style.display = 'none';
+    signupForm.form.reset();
   }).catch(err => {
     console.log(err.message)
   })
@@ -49,40 +49,27 @@ signupForm.form.addEventListener('submit', (e) => {
 loginForm.form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const email = loginForm.email.value
-  const password = loginForm.password.value
+  const email = loginForm.form.email.value
+  const password = loginForm.form.password.value
   auth.signInWithEmailAndPassword(email, password).then(cred => {
-    loginForm.style.display = 'none';
-    loginForm.reset();
+    loginForm.content.style.display = 'none';
+    loginForm.form.reset();
   }).catch(err => {
     console.log(err.message)
   })
 })
 
-logout.addEventListener('click', (e) => {
-  e.preventDefault();
-  auth.signout();
-})
 
-
-
-//db.collection('trees').where('title', '>', 'n').get()
-
-// Getting data
-
-/* db.collection('trees').orderBy('title').get().then((snapshot) => {
-  snapshot.docs.forEach(doc => {
-    renderTree(doc);
-  })
-}); */
-
-
+// logout.addEventListener('click', (e) => {
+//   e.preventDefault();
+//   auth.signout();
+// })
 
 formEvents(user);
 window.addEventListener('load', () => {
-  content.appendChild(loginForm);
-  content.appendChild(signupForm);
+  content.appendChild(loginForm.content);
+  content.appendChild(signupForm.content);
   content.appendChild(navWrap);
-  content.appendChild(formTree.content);
-  content.appendChild(treeList);
+  // content.appendChild(formTree.content);
+  // content.appendChild(treeList);
 });

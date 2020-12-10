@@ -14,6 +14,8 @@ for(let i = 0; i < loggedIn.lenght; i++){
   nav.appendChild(navLi);
 }
 
+let logout = document.querySelector('#Logout');
+
 for(let i = 0; i < loggedOut.length; i++){
   let navLi = document.createElement('a');
   navLi.className = 'item-notlogged';
@@ -41,4 +43,4 @@ function navControl(user){
 navWrap.appendChild(logo);
 navWrap.appendChild(nav);
 
-export { navWrap, navControl};
+export { navWrap, navControl, logout };

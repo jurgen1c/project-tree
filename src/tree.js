@@ -1,8 +1,6 @@
-import {db, auth} from './fire';
-import  format from 'date-fns';
+import db from './fire';
+import  format from 'date-fns/format';
 import { PForm, BForm } from './forms'
-
-let user = firebase.auth().currentUser
 
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');

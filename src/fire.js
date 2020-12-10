@@ -16,9 +16,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-const user = firebase.auth().currentUser
 const db = firebase.firestore();
 db.settings({timestampsInSnapshots: true});
 const auth = firebase.auth();
 
-export { db, auth, user }
+export { db, auth }

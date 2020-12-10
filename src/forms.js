@@ -95,9 +95,9 @@ class UForm{
     let btn = document.createElement('button');
 
 
-    email.type = 'email';
+    email.type = 'text';
     email.name = 'email';
-    pass.type = 'password';
+    pass.type = 'text';
     pass.name = 'password';
     btn.type = 'submit';
     btn.textContent = action;
