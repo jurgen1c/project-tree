@@ -32,13 +32,24 @@ class PForm {
 }
 class BForm{
   constructor(){
+    let options = ['high', 'medium', 'low'];
     let wrapper = document.createElement('form');
     let tinput = document.createElement('input');
     let dinput = document.createElement('textarea');
+    let ninput = document.createElement('textarea');
+    let bselect = document.createElement('select');
+    for(let op of options){
+      let oWrap = document.createElement('option');
+      oWrap.value = op;
+      oWrap.textContent = op;
+      bselect.appendChild(oWrap);
+    }
     let input = document.createElement('input');
     let button = document.createElement('button');
 
     wrapper.id = "add-tree-form";
+
+    bselect.name = 'priority';
 
     tinput.type = 'text';
     tinput.name = 'title';
@@ -50,16 +61,27 @@ class BForm{
     input.type = 'date';
     input.name = 'due_date';
 
+    ninput.name = 'notes';
+    ninput.placeholder = 'Add notes...';
+
     button.type = 'submit';
     button.innerHTML = 'Submit';
 
     wrapper.appendChild(tinput);
+    wrapper.appendChild(bselect);
     wrapper.appendChild(dinput);
     wrapper.appendChild(input);
+    wrapper.appendChild(ninput);
     wrapper.appendChild(button);
 
     this.content = wrapper;
   }
 }
 
-export {PForm, BForm};
+class UForm{
+  constructor(){
+
+  }
+}
+
+export {PForm, BForm, UForm};

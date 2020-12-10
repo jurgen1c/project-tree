@@ -3,8 +3,9 @@ import firebase from 'firebase/app';
 import "firebase/analytics";
 import 'firebase/auth';
 import 'firebase/firestore';
-import {PForm, BForm} from './dom';
-import { compareAsc, format } from 'date-fns'
+import {PForm, BForm, UForm} from './forms';
+import  { format } from 'date-fns';
+import navWrap from './nav';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAiZ8_iZgAYH3-NfyMdxOVngf3ThIEj1Io",
@@ -20,9 +21,11 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 const db = firebase.firestore();
 db.settings({timestampsInSnapshots: true});
+const auth = firebase.auth();
 
 const content = document.querySelector('body');
 const formTree = new PForm();
+const formBranch = new BForm();
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');
 const updateTree = new PForm();
@@ -42,13 +45,15 @@ function treeUpdate(el, id){
 }
 
 function branchUpdate(el, id){
-  el.appendChild(updateTree.content)
+  el.appendChild(updateBranch.content)
   updateBranch.content.addEventListener('submit', (e) => {
     e.preventDefault();
     db.collection('branches').doc(id).update({
-      title: updateTree.content.title.value,
-      description: updateTree.content.description.value,
-      due_date: updateTree.content.due_date.value
+      title: updateBranch.content.title.value,
+      description: updateBranch.content.description.value,
+      due_date: updateBranch.content.due_date.value,
+      priority: updateBranch.content.priority.value,
+      notes: updateBranch.content.notes.value
     })
     el.removeChild(updateBranch.content);
   })
@@ -57,25 +62,34 @@ function branchUpdate(el, id){
 function renderBranches(branch){
   let bLi = document.createElement('li');
   let bTitle = document.createElement('h3');
+  let bStatus = document.createElement('input');
+  let bPriority = document.createElement('span');
   let bDes= document.createElement('p');
   let due = document.createElement('span');
   let bRemove = document.createElement('button');
   let bUpdate = document.createElement('button');
+  let bNotes = document.createElement('p');
 
   bLi.setAttribute('data-id', branch.id);
+  bStatus.type = 'checkbox';
+
+  bPriority.textContent = branch.data().priority;
+  bNotes.textContent = branch.data().notes;
   bTitle.textContent = branch.data().title;
   bDes.textContent = branch.data().description;
-  due.textContent = branch.data().due_date.toDate();
+  due.textContent = branch.data().due_date;
   due.textContent = format(new Date(due.textContent), 'do MMMM yyyy')
   
   bRemove.innerHTML = 'X';
   bUpdate.innerHTML = 'Update';
 
   bLi.appendChild(bTitle);
-  bLi.appendChild(bDes);
+  bLi.appendChild(bPriority);
   bLi.appendChild(due);
+  bLi.appendChild(bDes);
   bLi.appendChild(bRemove);
   bLi.appendChild(bUpdate);
+  bLi.appendChild(bNotes);
 
   bRemove.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -86,6 +100,17 @@ function renderBranches(branch){
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
     branchUpdate(li, id);
+  })
+  bStatus.addEventListener('change', () => {
+    if(this.checked){
+      db.collection('branches').doc(branch.id).update({
+          status: true
+      });
+    }else{
+      db.collection('branches').doc(branch.id).update({
+        status: false
+      });
+    }
   })
   branchList.appendChild(bLi);
 }
@@ -105,7 +130,8 @@ function showBranches(parent, id){
       }
     })
   })
-  parent.appendChild(branchList)
+  parent.appendChild(formBranch.content);
+  parent.appendChild(branchList);
 }
 
 function renderTree(doc){
@@ -186,12 +212,26 @@ formTree.content.addEventListener('submit', (e) => {
     description: formTree.content.description.value,
     color: formTree.content.color.value
   })
-  formTree.content.title.value = '';
-  formTree.content.description.value = '';
-  formTree.content.color.value = '';
+  formTree.content.reset();
+})
+
+formBranch.content.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let id = e.target.parentElement.getAttribute('data-id');
+  db.collection('branches').add({
+    title: formBranch.content.title.value,
+    priority: formBranch.content.priority.value,
+    description: formBranch.content.description.value,
+    status: false,
+    due_date: formBranch.content.due_date.value,
+    notes: formBranch.content.notes.value,
+    tree_id: id
+  })
+  formBranch.content.reset();
 })
 
 window.addEventListener('load', () => {
+  content.appendChild(navWrap);
   content.appendChild(formTree.content);
   content.appendChild(treeList);
 });
