@@ -1,11 +1,12 @@
 class PForm {
   constructor(){
-    let wrapper = document.createElement('form');
+    let wrapper = document.createElement('div');
+    let form = document.createElement('form');
     let tinput = document.createElement('input');
     let dinput = document.createElement('textarea');
     let cinput = document.createElement('input');
     let button = document.createElement('button');
-
+    
     wrapper.id = "add-tree-form";
 
     tinput.type = 'text';
@@ -22,18 +23,23 @@ class PForm {
     button.type = 'submit';
     button.innerHTML = 'Submit';
 
-    wrapper.appendChild(tinput);
-    wrapper.appendChild(dinput);
-    wrapper.appendChild(cinput);
-    wrapper.appendChild(button);
+    form.appendChild(tinput);
+    form.appendChild(dinput);
+    form.appendChild(cinput);
+    form.appendChild(button);
 
+    wrapper.appendChild(form);
+
+    this.form = form;
     this.content = wrapper;
   }
 }
 class BForm{
   constructor(){
     let options = ['high', 'medium', 'low'];
-    let wrapper = document.createElement('form');
+
+    let wrapper = document.createElement('div')
+    let form = document.createElement('form');
     let tinput = document.createElement('input');
     let dinput = document.createElement('textarea');
     let ninput = document.createElement('textarea');
@@ -67,21 +73,48 @@ class BForm{
     button.type = 'submit';
     button.innerHTML = 'Submit';
 
-    wrapper.appendChild(tinput);
-    wrapper.appendChild(bselect);
-    wrapper.appendChild(dinput);
-    wrapper.appendChild(input);
-    wrapper.appendChild(ninput);
-    wrapper.appendChild(button);
+    form.appendChild(tinput);
+    form.appendChild(bselect);
+    form.appendChild(dinput);
+    form.appendChild(input);
+    form.appendChild(ninput);
+    form.appendChild(button);
 
+    wrapper.appendChild(form);
+
+    this.form = form;
+    this.content = wrapper;
+  }
+}
+class UForm{
+  constructor(action){
+    let wrapper = document.createElement('div');
+    const form = document.createElement('form');
+    let email = document.createElement('input');
+    let pass = document.createElement('input');
+    let btn = document.createElement('button');
+
+
+    email.type = 'email';
+    email.name = 'email';
+    pass.type = 'password';
+    pass.name = 'password';
+    btn.type = 'submit';
+    btn.textContent = action;
+
+    form.appendChild(email);
+    form.appendChild(pass);
+    form.appendChild(btn);
+
+    wrapper.className = 'modal';
+
+    wrapper.appendChild(form);
+    this.form = form;
     this.content = wrapper;
   }
 }
 
-class UForm{
-  constructor(){
+const loginForm = new UForm('Login');
+const signupForm = new UForm('Sign Up');
 
-  }
-}
-
-export {PForm, BForm, UForm};
+export {PForm, BForm, loginForm, signupForm};
