@@ -22,7 +22,9 @@
 
 - Run the command ```npm install``` from root directory to install the app dependencies.
 
-- Run the command ```npx webpack``` to bundle up the files.
+- Run the command ```npm run build``` to bundle up the files.
+
+- Run the command ```npm run dev``` to test on localhost:8080.
 
 
 ### Build With
@@ -33,7 +35,7 @@
 - Firebase
 - SASS  
 
-### Check out the live demo [here](https://deploy-preview-3--hardcore-ride-94bb5a.netlify.app/)     
+### Check out the live demo [here](https://project-tree-81da1.web.app/)     
 
 ## 👤 Authors
 
