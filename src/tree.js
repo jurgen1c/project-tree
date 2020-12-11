@@ -1,7 +1,7 @@
 import {db} from './fire';
-import  format from 'date-fns/format';
 import { PForm, BForm } from './forms'
-import { showModal, showDes } from './modal'
+import { showDes } from './modal'
+import { Branch, Tree } from './templates'
 
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');
@@ -12,6 +12,10 @@ const formTree = new PForm();
 const formBranch = new BForm();
 const updateTree = new PForm();
 const updateBranch = new BForm();
+
+branchWrapper.className = 'branch-wrap';
+branchList.className = 'branch-list';
+treeWrapper.className = 'tree-list';
 
 function treeUpdate(el, id){
   el.appendChild(updateTree.content)
@@ -42,74 +46,45 @@ function branchUpdate(el, id){
 }
 
 function renderBranches(branch){
-  let bLi = document.createElement('li');
-  let bTitle = document.createElement('h3');
-  let bStatus = document.createElement('input');
-  let bPriority = document.createElement('span');
-  let bDes = document.createElement('p');
-  let due = document.createElement('span');
-  let bRemove = document.createElement('button');
-  let bUpdate = document.createElement('button');
-  let bNotes = document.createElement('p');
-  let showMore = document.createElement('span')
+  const newBranch = new Branch(
+    branch.data().priority,
+    branch.data().notes,
+    branch.data().title,
+    branch.data().description,
+    branch.data().due_date
+  )
 
-  let desWrap = document.createElement('div');
+  newBranch.content.setAttribute('data-id', branch.id);
 
-  bLi.setAttribute('data-id', branch.id);
-  bStatus.type = 'checkbox';
-
-  bPriority.textContent = branch.data().priority;
-  bNotes.textContent = branch.data().notes;
-  bTitle.textContent = branch.data().title;
-  bDes.textContent = branch.data().description;
-  due.textContent = branch.data().due_date;
-  due.textContent = format(new Date(due.textContent), 'do MMMM yyyy')
-  
-  bRemove.innerHTML = 'X';
-  bUpdate.innerHTML = 'Update';
-  showMore.innerHTML = 'show more &#65088;';
-
-  desWrap.appendChild(bDes);
-  desWrap.appendChild(bNotes);
-  desWrap.style.display = 'none';
-
-  bLi.appendChild(bStatus);
-  bLi.appendChild(bTitle);
-  bLi.appendChild(showMore)
-  bLi.appendChild(bPriority);
-  bLi.appendChild(due);
-  bLi.appendChild(bRemove);
-  bLi.appendChild(bUpdate);
-  bLi.appendChild(desWrap);
-
-  showMore.addEventListener('click', (e) => {
-    showDes(desWrap);
+  newBranch.showmore.addEventListener('click', (e) => {
     e.stopPropagation();
+    showDes(newBranch.des);
   })
 
-  bRemove.addEventListener('click', (e) => {
+  newBranch.remove.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
     db.collection('branches').doc(id).delete();
   })
-  bUpdate.addEventListener('click', (e) => {
+  newBranch.update.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
     branchUpdate(li, id);
   })
-  bStatus.addEventListener('change', () => {
+  newBranch.status.addEventListener('change', () => {
     if(this.checked){
+      newBranch.content.style.background = 'lightgreen';
       db.collection('branches').doc(branch.id).update({
           status: true
       });
     }else{
+      newBranch.content.style.background = 'lightcoral';
       db.collection('branches').doc(branch.id).update({
         status: false
       });
     }
   })
-  branchList.appendChild(bLi);
-  console.log(branchList)
+  branchList.appendChild(newBranch.content);
 }
 
 function showBranches(parent, id){
@@ -134,46 +109,31 @@ function showBranches(parent, id){
 }
 
 function renderTree(doc){
-  let li = document.createElement('li');
-  let title = document.createElement('h3');
-  let description = document.createElement('p');
-  let color = document.createElement('span');
-  let remove = document.createElement('button');
-  let update = document.createElement('button');
-  let show = document.createElement('button');
+  const newTree = new Tree(
+    doc.data().title,
+    doc.data().description,
+    doc.data().color
+  )
 
-  li.setAttribute('data-id', doc.id);
-  title.textContent = doc.data().title;
-  description.textContent = doc.data().description;
-  color.textContent = doc.data().color;
-  remove.innerHTML = 'X';
-  update.innerHTML = 'Update';
-  show.innerHTML = 'Show todos';
+  newTree.content.setAttribute('data-id', doc.id);
 
-  li.appendChild(title);
-  li.appendChild(description);
-  li.appendChild(color);
-  li.appendChild(remove);
-  li.appendChild(update);
-  li.appendChild(show);
-
-  remove.addEventListener('click', (e) => {
+  newTree.remove.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
     db.collection('trees').doc(id).delete();
   })
-  update.addEventListener('click', (e) => {
+  newTree.update.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
-    treeUpdate(li, id);
+    treeUpdate(newTree.content, id);
   })
-  show.addEventListener('click', (e) => {
+  newTree.show.addEventListener('click', (e) => {
     e.stopPropagation();
     let id = e.target.parentElement.getAttribute('data-id');
-    showBranches(li, id)
+    showBranches(newTree.content, id)
   })
 
-  treeList.appendChild(li);
+  treeList.appendChild(newTree.content);
 }
 
 const formEvents = (user) => {

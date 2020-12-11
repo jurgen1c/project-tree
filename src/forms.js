@@ -16,7 +16,7 @@ class PForm {
     dinput.name = 'description';
     dinput.placeholder = 'Add a description about your tree';
 
-    cinput.type = 'text';
+    cinput.type = 'color';
     cinput.name = 'color';
     cinput.placeholder = 'Choose tree color';
 
