@@ -1,7 +1,14 @@
-import { showModal } from './modal'
 import { loginForm, signupForm } from './forms';
 import { formTree } from './tree';
 import {newAccount} from './templates'
+
+function showElement(el){
+  if(el.style.display === 'none'){
+    el.style.display = 'block';
+  }else{
+    el.style.display = 'none';
+  }
+}
 
 let navWrap = document.createElement('div');
 let logo = document.createElement('div');
@@ -26,22 +33,22 @@ account.textContent = 'Account';
 
 login.addEventListener('click', (e) => {
   e.preventDefault();
-  showModal(loginForm.content);
+  showElement(loginForm.content);
 })
 
 signup.addEventListener('click', (e) => {
   e.preventDefault();
-  showModal(signupForm.content);
+  showElement(signupForm.content);
 })
 
 create.addEventListener('click', (e) => {
   e.preventDefault();
-  showModal(formTree.content)
+  showElement(formTree.content)
 })
 
 account.addEventListener('click', (e) => {
   e.stopPropagation();
-  showModal(newAccount.content)
+  showElement(newAccount.content)
 })
 
 nav.appendChild(login);
@@ -71,4 +78,4 @@ navWrap.appendChild(logo);
 navWrap.appendChild(nav);
 navWrap.className = 'nav'
 
-export { navWrap, navControl, logout };
+export { navWrap, navControl, logout, showElement };

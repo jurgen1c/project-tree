@@ -4,6 +4,8 @@ class Branch {
     let bLi = document.createElement('div');
     let bTitle = document.createElement('h3');
     let bStatus = document.createElement('input');
+    let statusText = document.createElement('span');
+    let statusWrap = document.createElement('span');
     let bPriority = document.createElement('span');
     let bDes = document.createElement('p');
     let due = document.createElement('span');
@@ -14,29 +16,35 @@ class Branch {
     let desWrap = document.createElement('div');
 
     bStatus.type = 'checkbox';
-    bPriority.textContent = `Priority ${priority}`;
+    statusText.innerText = ' Mark as complete';
+    bPriority.textContent = `Priority ${priority} `;
+    bPriority.className = 'b-priority'
     bNotes.textContent = notes;
     bTitle.textContent = title;
     bDes.textContent = description;
-    due.textContent = `Due Date: ${format(new Date(due_date), 'do MMMM yyyy')}`;
+    due.textContent = `Due Date: ${format(new Date(due_date), 'do MMMM yyyy')} `;
     bRemove.innerHTML = 'X';
     bRemove.classList.add('btn', 'danger');
     bUpdate.innerHTML = 'Update';
     bUpdate.classList.add('btn', 'primary');
-    showMore.innerHTML = 'show more &#65088;';
+    showMore.innerHTML = '&#65088;';
+    showMore.className = 'show-more';
     bLi.className = 'branch';
 
     desWrap.appendChild(bDes);
     desWrap.appendChild(bNotes);
     desWrap.style.display = 'none';
 
-    bLi.appendChild(bStatus);
+    statusWrap.appendChild(bStatus);
+    statusWrap.appendChild(statusText);
+
+    bLi.appendChild(statusWrap);
     bLi.appendChild(bTitle);
-    bLi.appendChild(showMore)
     bLi.appendChild(bPriority);
     bLi.appendChild(due);
     bLi.appendChild(bRemove);
     bLi.appendChild(bUpdate);
+    bLi.appendChild(showMore)
     bLi.appendChild(desWrap);
 
     this.remove = bRemove;

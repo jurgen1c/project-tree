@@ -1,21 +1,28 @@
-#	PROJECT: Fractal Tree
+#	Project: To-Do List
 
+### What we built
 
-> In this project, a static restaurant page was built using Javascript and Webpack.
+> A project management website where a user can create projects, include ToDo lists, and also mark completed projects.
 
-![Page](src/images/home.png)
+> In this project we used firebase (an online back-end services) to create users and save data specific to each user in the database.
+
+### Project screenshot
+
+![Page](src/images/home-page.png)
 
 
 ### 📝 Setup
 
  - Open a terminal
  
- - Copy this code : 
+ - Clone this code: 
         ```
-        git clone https://github.com/jurgen1c/restaurant-JS.git
+        git clone git@github.com:jurgen1c/project-tree.git
         ```
 
--	npm run dev
+- Run the command ```npm install``` from root directory to install the app dependencies.
+
+- Run the command ```npx webpack``` to bundle up the files.
 
 
 ### Build With
@@ -24,7 +31,7 @@
 - JavaScript
 - Webpack
 - Firebase
--	SASS  
+- SASS  
 
 ### Check out the live demo [here](https://deploy-preview-3--hardcore-ride-94bb5a.netlify.app/)     
 
@@ -35,6 +42,13 @@
 
 - Github: [@jurgen1c](https://github.com/jurgen1c)
 - LinkedIn: [jurgen-clausen](https://www.linkedin.com/in/jurgen-clausen-2740061a9/)
+
+
+👤 **Sunday Uche Ezeilo**
+
+- Github: [@sundayezeilo](https://github.com/ezeilo-su)
+- Twitter: [@SundayEzeilo](https://twitter.com/SundayEzeilo)
+- Linkedin: [Sunday Ezeilo](https://www.linkedin.com/in/sunday-ezeilo-a6a67664/)
 
 
 ## 🤝 Contributing

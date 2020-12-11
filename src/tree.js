@@ -1,7 +1,7 @@
 import {db} from './fire';
 import { PForm, BForm } from './forms'
-import { showDes } from './modal'
 import { Branch, Tree } from './templates'
+import { showElement } from './nav'
 
 const treeList = document.createElement('div');
 const branchList = document.createElement('div');
@@ -95,7 +95,7 @@ function renderBranches(branch){
   
     newBranch.showmore.addEventListener('click', (e) => {
       e.stopPropagation();
-      showDes(newBranch.des);
+      showElement(newBranch.des);
     })
   
     newBranch.remove.addEventListener('click', (e) => {
