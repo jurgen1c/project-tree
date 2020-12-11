@@ -1,5 +1,7 @@
 import { showModal } from './modal'
 import { loginForm, signupForm } from './forms';
+import { formTree } from './tree';
+import {newAccount} from './templates'
 
 let navWrap = document.createElement('div');
 let logo = document.createElement('div');
@@ -16,13 +18,10 @@ logout.className = 'item-logged';
 create.className = 'item-logged';
 signup.className = 'item-notlogged';
 
-let loggedIn = ['Account', 'Logout', 'Create'];
-let loggedOut = ['Login', 'Sign Up']
-
 login.textContent = 'Login';
 signup.textContent = 'Sign Up';
 logout.textContent = 'Logout';
-create.textContent = 'Create New Tree';
+create.textContent = 'Create New Project';
 account.textContent = 'Account';
 
 login.addEventListener('click', (e) => {
@@ -35,30 +34,21 @@ signup.addEventListener('click', (e) => {
   showModal(signupForm.content);
 })
 
+create.addEventListener('click', (e) => {
+  e.preventDefault();
+  showModal(formTree.content)
+})
+
+account.addEventListener('click', (e) => {
+  e.stopPropagation();
+  showModal(newAccount.content)
+})
+
 nav.appendChild(login);
 nav.appendChild(signup);
 nav.appendChild(account);
 nav.appendChild(create);
 nav.appendChild(logout);
-
-
-/* for(let i = 0; i < loggedIn.lenght; i++){
-  let navLi = document.createElement('a');
-  navLi.className = 'item-logged';
-  navLi.id = loggedIn[i]
-  navLi.textContent = loggedIn[i];
-  navLi.setAttribute('data-target', `modal-${loggedIn[i]}`);
-  nav.appendChild(navLi);
-}
-
-for(let i = 0; i < loggedOut.length; i++){
-  let navLi = document.createElement('a');
-  navLi.className = 'item-notlogged';
-  navLi.id = loggedOut[i].toLowerCase().split(/\W/).join('-');
-  navLi.textContent = loggedOut[i];
-  navLi.setAttribute('data-target', `modal-${loggedOut[i]}`);
-  nav.appendChild(navLi);
-} */
 
 let loggedItems = [logout, account, create]
 let notlogged = [login, signup]
@@ -74,6 +64,8 @@ function navControl(user){
     //hide links
   }
 }
+
+logo.textContent = 'Fractal Tree';
 
 navWrap.appendChild(logo);
 navWrap.appendChild(nav);

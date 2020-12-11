@@ -1,8 +1,7 @@
 import  format from 'date-fns/format';
-
 class Branch {
   constructor(priority, notes, title, description, due_date){
-    let bLi = document.createElement('li');
+    let bLi = document.createElement('div');
     let bTitle = document.createElement('h3');
     let bStatus = document.createElement('input');
     let bPriority = document.createElement('span');
@@ -21,7 +20,9 @@ class Branch {
     bDes.textContent = description;
     due.textContent = `Due Date: ${format(new Date(due_date), 'do MMMM yyyy')}`;
     bRemove.innerHTML = 'X';
+    bRemove.classList.add('btn', 'danger');
     bUpdate.innerHTML = 'Update';
+    bUpdate.classList.add('btn', 'primary');
     showMore.innerHTML = 'show more &#65088;';
     bLi.className = 'branch';
 
@@ -49,7 +50,7 @@ class Branch {
 
 class Tree{
   constructor(treeTitle, treeDescription, treeColor){
-    let li = document.createElement('li');
+    let li = document.createElement('div');
     let title = document.createElement('h3');
     let description = document.createElement('p');
     let color = document.createElement('span');
@@ -62,8 +63,11 @@ class Tree{
     li.style.background = treeColor;
     li.className = 'tree'
     remove.innerHTML = 'X';
+    remove.classList.add('btn', 'danger');
     update.innerHTML = 'Update';
+    update.classList.add('btn', 'primary');
     show.innerHTML = 'Show todos';
+    show.classList.add('btn', 'primary');
 
     li.appendChild(title);
     li.appendChild(description);
@@ -79,4 +83,32 @@ class Tree{
   }
 }
 
-export { Branch, Tree }
+function Account() {
+  let wrapper = document.createElement('div')
+  let name = document.createElement('h4')
+  let email = document.createElement('p')
+  let closeBtn = document.createElement('button');
+
+  this.email = email
+  this.name = name
+  email.textContent = this.emailValue;
+  name.textContent = this.nameValue;
+  closeBtn.textContent = 'X';
+  closeBtn.classList.add('btn', 'danger');
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    e.target.parentElement.style.display = 'none';
+  })
+  wrapper.className = 'modal';
+  wrapper.style.display = 'none';
+
+  wrapper.appendChild(closeBtn);
+  wrapper.appendChild(name);
+  wrapper.appendChild(email);
+
+  this.content = wrapper;
+}
+
+const newAccount = new Account();
+
+export { Branch, Tree, newAccount }

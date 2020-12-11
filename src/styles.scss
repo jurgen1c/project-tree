@@ -14,13 +14,13 @@ body {
   height: auto;
   padding: 1rem;
   display: flex;
-  background: lightgray;
+  background: rgb(140, 170, 253);
   justify-content: space-around;
   div{
     width: 20%;
   }
   nav{
-    width: 40%;
+    width: 30%;
     display: flex;
   }
 }
@@ -30,7 +30,7 @@ form {
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
-  box-shadow: 5px 5px 15px 1px #635B63;
+  box-shadow: 5px 5px 10px 1px #635B63;
   padding: .5rem;
   input,
   textarea {
@@ -42,6 +42,7 @@ form {
 .item-notlogged {
   display: none;
   margin: 0 .5rem;
+  cursor: pointer;
 }
 
 .tree-list {
@@ -51,7 +52,7 @@ form {
 
 .tree{
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 1px #635B63;
+  box-shadow: 5px 5px 10px 1px #635B63;
   margin: .3rem 0;
   padding: .5rem;
 }
@@ -80,10 +81,25 @@ form {
 }
 
 .modal {
-  display: none;
   position: fixed;
   width: 40%;
   height: auto;
-  top: 50%;
-  left: 50%;
+  top: 30%;
+  left: 30%;
+}
+
+.btn {
+  padding: .3rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  margin: .3rem;
+}
+
+.danger {
+  background: rgb(252, 81, 81);
+}
+
+.primary{
+  background: rgb(0, 38, 255);
 }

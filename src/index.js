@@ -2,7 +2,8 @@ import './styles.scss';
 import { db, auth } from './fire'
 import { navControl, navWrap, logout } from './nav'
 import { loginForm, signupForm } from './forms';
-import { renderTree, formEvents, branchWrapper, treeWrapper } from './tree'
+import { renderTree, formEvents, branchWrapper, treeWrapper, formTree } from './tree'
+import {newAccount} from './templates'
 
 const content = document.querySelector('body');
 
@@ -11,7 +12,8 @@ auth.onAuthStateChanged(user => {
     navControl(user);
     formEvents(user);
     // Real Time Listener ------------
-
+    newAccount.email.textContent = 'Email: ' + user.email
+    newAccount.name.textContent = 'Your are logged in as: ' + user.displayName
     db.collection('trees').where('user_id', '==', user.uid).orderBy('title').onSnapshot(snapshot => {
       let changes = snapshot.docChanges();
       changes.forEach(change => {
@@ -35,6 +37,7 @@ auth.onAuthStateChanged(user => {
 
 signupForm.form.addEventListener('submit', (e) => {
   e.preventDefault();
+  const displayName = signupForm.form.userName.value;
   const email = signupForm.form.email.value;
   const password = signupForm.form.password.value;
   auth.createUserWithEmailAndPassword(email, password).then(cred => {
@@ -42,6 +45,11 @@ signupForm.form.addEventListener('submit', (e) => {
     signupForm.form.reset();
   }).catch(err => {
     console.log(err.message)
+  })
+  auth.currentUser.updateProfile({
+    displayName: displayName
+  }).then(() => {
+    console.log('user name updated');
   })
 })
 
@@ -66,6 +74,8 @@ logout.addEventListener('click', (e) => {
 window.addEventListener('load', () => {
   content.appendChild(loginForm.content);
   content.appendChild(signupForm.content);
+  content.appendChild(formTree.content);
+  content.appendChild(newAccount.content);
   content.appendChild(navWrap);
   // content.appendChild(formTree.content);
   content.appendChild(treeWrapper);

@@ -6,6 +6,7 @@ class PForm {
     let dinput = document.createElement('textarea');
     let cinput = document.createElement('input');
     let button = document.createElement('button');
+    let closeBtn = document.createElement('button');
     
     wrapper.id = "add-tree-form";
 
@@ -21,7 +22,16 @@ class PForm {
     cinput.placeholder = 'Choose tree color';
 
     button.type = 'submit';
-    button.innerHTML = 'Submit';
+    button.innerHTML = 'Create';
+    closeBtn.type = 'button';
+    closeBtn.textContent = 'X';
+
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.target.parentElement.style.display = 'none';
+    })
+
+    wrapper.appendChild(closeBtn);
 
     form.appendChild(tinput);
     form.appendChild(dinput);
@@ -29,6 +39,8 @@ class PForm {
     form.appendChild(button);
 
     wrapper.appendChild(form);
+    wrapper.className = 'modal';
+    wrapper.style.display = 'none';
 
     this.form = form;
     this.content = wrapper;
@@ -38,7 +50,8 @@ class BForm{
   constructor(){
     let options = ['high', 'medium', 'low'];
 
-    let wrapper = document.createElement('div')
+    let wrapper = document.createElement('div');
+    let header = document.createElement('h5');
     let form = document.createElement('form');
     let tinput = document.createElement('input');
     let dinput = document.createElement('textarea');
@@ -72,6 +85,9 @@ class BForm{
 
     button.type = 'submit';
     button.innerHTML = 'Submit';
+    header.textContent = 'New Todo';
+
+    wrapper.appendChild(header);
 
     form.appendChild(tinput);
     form.appendChild(bselect);
@@ -94,12 +110,18 @@ class UForm{
     let pass = document.createElement('input');
     let btn = document.createElement('button');
     let closeBtn = document.createElement('button');
-
+    if(action == 'Sign Up'){
+      let userName = document.createElement('input');
+      userName.placeholder = 'User Name'
+      form.appendChild(userName);
+    }
 
     email.type = 'text';
     email.name = 'email';
+    email.placeholder = 'Email'
     pass.type = 'text';
     pass.name = 'password';
+    pass.placeholder = 'Password'
     btn.type = 'submit';
     btn.textContent = action;
     closeBtn.type = 'button';
@@ -116,6 +138,7 @@ class UForm{
     form.appendChild(btn);
 
     wrapper.className = 'modal';
+    wrapper.style.display = 'none';
 
     wrapper.appendChild(form);
     this.form = form;
