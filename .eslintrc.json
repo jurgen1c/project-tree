@@ -17,7 +17,7 @@
     "arrow-parens": "off"
   },
   "ignorePatterns": [
-    "dist/",
+    "public/",
     "build/"
   ]
 }
