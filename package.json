@@ -2,8 +2,11 @@
   "name": "project-tree",
   "version": "1.0.0",
   "description": "",
-  "private": true,
+  "main": "index.js",
   "scripts": {
+    "build": "webpack",
+    "dev": "webpack serve",
+    "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +28,7 @@
     "eslint-plugin-import": "^2.20.2",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
     "stylelint": "^13.3.3",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-csstree-validator": "^1.9.0",
@@ -34,6 +38,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "date-fns": "^2.16.1",
     "firebase": "^8.1.2"
   }
 }
