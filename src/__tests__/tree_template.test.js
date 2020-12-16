@@ -1,4 +1,4 @@
-import Tree from './tree_template';
+import Tree from '../tree_template';
 
 const test = new Tree('Test Tree', 'Test of tree description', 'red');
 

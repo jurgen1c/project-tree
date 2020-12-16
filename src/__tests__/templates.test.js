@@ -1,4 +1,4 @@
-import { Branch } from './templates';
+import { Branch } from '../templates';
 
 const test = new Branch('high', 'testing note', 'Test', 'testing description', '02/10/2021');
 

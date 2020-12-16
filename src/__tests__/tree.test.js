@@ -1,4 +1,4 @@
-import { renderTree, renderBranches } from './tree';
+import { renderTree, renderBranches } from '../tree';
 
 
 it('Test renderTree without db query', () => {
