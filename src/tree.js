@@ -144,7 +144,6 @@ function showBranches(parent, id) {
   });
   branchList.appendChild(branchHeader);
   parent.appendChild(formBranch.content);
-  // branchWrapper.appendChild(branchList);
 }
 
 function renderTree(doc) {
@@ -224,5 +223,5 @@ const formEvents = (user) => {
 treeWrapper.appendChild(treeList);
 
 export {
-  renderTree, formEvents, branchWrapper, treeWrapper, formTree, treeList,
+  renderTree, renderBranches, formEvents, branchWrapper, treeWrapper, formTree, treeList,
 };
